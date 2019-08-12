@@ -32,7 +32,7 @@ boxplotScore <- function(probScore, questVariable) {
 
   boxData <- data.frame(probability=as.numeric(probScore), questVar=as.factor(questVariable))
 
-  PLOT <- ggplot2::ggplot(boxData, aes(x=questVariable, y=probScore,fill=questVariable)) +
+    ggplot2::ggplot(boxData, aes(x=questVariable, y=probScore,fill=questVariable)) +
     geom_boxplot() +
     xlab("Questionnaire Variable") +
     ylab("Smoking Score") +
