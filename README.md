@@ -12,14 +12,14 @@ It contains a function to create a whole blood DNA methylation in utero exposure
 
 This package can be installed in its BETA version by typing the following into the R console:  
 
-devtools::install_github("Hobbeist/DNAsmokeR", build_vignettes=T)
+<code>devtools::install_github("Hobbeist/DNAsmokeR", build_vignettes=T)</code>
 
 ## Functions
 
 This package currently contains three functions:
 
-* smokeScore()  
-* scoreMatrix() , and   
-* boxplotScore() 
+* <code>smokeScore()</code>  
+* <code>sscoreMatrix()</code>  , and   
+* <code>sboxplotScore()</code>  
 
 More details on these fucntiosn can be found in the vignette of this package and i nthe help pages in R.
