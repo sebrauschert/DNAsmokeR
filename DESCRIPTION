@@ -1,11 +1,29 @@
 Package: DNAsmokeR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: DNA methylation based score for in utero exposure to maternal smoking
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Sebastian", "Rauschert",
+	email = "Sebastian.Rauschert@telethonkids.org.au", role=c("aut", "cre")) 
+BugReports: https://github.com/Hobbeist/DNAsmokeR/issues
+Date: 2019-08-12
+Description: This package contains functions to create a whole blood DNA-methylation based
+	in utero exposure score to maternal smoking. This score was developed using elastic net regression.
+	The weights provided here can be applied to Illumina HumanMethylation450 or EPIC array data. The
+	output can both be a score or a binary classification. This packages contains both the function
+	necessary for the score calculation and the weights for the CpGs required for the calculation.
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends:
+	R (>= 3.5.0)
+Imports:
+	ggplot2,
+	dplyr,
+	readr,
+	magrittr
+RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 2.1.0)
+VignetteBuilder: knitr
