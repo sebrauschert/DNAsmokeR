@@ -12,7 +12,7 @@ output:
     css: assets/resources/html_report.css
 logo: assets/resources/DNAsmokeR.jpg
 vignette: >
-  %\VignetteIndexEntry{DNAsmokeR-userguide}
+  %\VignetteIndexEntry{UserGuide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
