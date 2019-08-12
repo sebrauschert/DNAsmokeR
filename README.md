@@ -19,7 +19,7 @@ This package can be installed in its BETA version by typing the following into t
 This package currently contains three functions:
 
 * <code>smokeScore()</code>  
-* <code>sscoreMatrix()</code>  , and   
-* <code>sboxplotScore()</code>  
+* <code>scoreMatrix()</code>  , and   
+* <code>boxplotScore()</code>  
 
 More details on these fucntiosn can be found in the vignette of this package and i nthe help pages in R.
