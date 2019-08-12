@@ -3,8 +3,8 @@ DNAsmokeR package
 
 This package is based on the paper by  
 
-__Rauschert S, Melton PE, Heiskala A, Karhunen V, Burdge G, Craig JM, Godfrey KM,
-Lillycrop K, Mori TA, Beilin LJ, Oddy WH, Pennell C, Jaervelin MR, Sebert S, Huang RC. Cross-Continent Poly-DNA Methylation Score for Fetal Exposure to Maternal Smoking, developed in adolescents with Machine Learning Methods. in preparation.__   
+Rauschert S, Melton PE, Heiskala A, Karhunen V, Burdge G, Craig JM, Godfrey KM,
+Lillycrop K, Mori TA, Beilin LJ, Oddy WH, Pennell C, Jaervelin MR, Sebert S, Huang RC. __Cross-Continent Poly-DNA Methylation Score for Fetal Exposure to Maternal Smoking, developed in adolescents with Machine Learning Methods.__ in preparation.  
 
 It contains a function to create a whole blood DNA methylation in utero exposure score to maternal smokign during pregnancy.
 
