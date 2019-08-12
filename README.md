@@ -22,4 +22,10 @@ This package currently contains three functions:
 * <code>scoreMatrix()</code>  , and   
 * <code>boxplotScore()</code>  
 
-More details on these fucntiosn can be found in the vignette of this package and i nthe help pages in R.
+More details on these fucntiosn can be found in the vignette of this package and in the help pages in R.
+
+<p align="center">
+
+<img src="vignettes/assets/resources/DNAsmokeR.jpg"  width="40%" height="40%">
+
+</p>
