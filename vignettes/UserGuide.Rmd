@@ -4,7 +4,6 @@ author: "Sebastian Rauschert, PhD"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
   html_document:
-    self_contained: yes
     toc: yes
     toc_float: yes
     code_folding: "show"
@@ -12,7 +11,7 @@ output:
     css: assets/resources/html_report.css
 logo: assets/resources/DNAsmokeR.jpg
 vignette: >
-  %\VignetteIndexEntry{UserGuide}
+  %\VignetteIndexEntry{User Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
