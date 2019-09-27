@@ -6,7 +6,7 @@ This package is based on the paper by
 Rauschert S, Melton PE, Heiskala A, Karhunen V, Burdge G, Craig JM, Godfrey KM,
 Lillycrop K, Mori TA, Beilin LJ, Oddy WH, Pennell C, Jaervelin MR, Sebert S, Huang RC. __Cross-Continent Poly-DNA Methylation Score for Fetal Exposure to Maternal Smoking, developed in adolescents with Machine Learning Methods.__ in preparation.  
 
-It contains a function to create a whole blood DNA methylation in utero exposure score to maternal smokign during pregnancy.
+It contains a function to create a whole blood DNA methylation in utero exposure score to maternal smoking during pregnancy.
 
 ## Installation
 
@@ -22,7 +22,7 @@ This package currently contains three functions:
 * <code>scoreMatrix()</code>  , and   
 * <code>boxplotScore()</code>  
 
-More details on these fucntiosn can be found in the vignette of this package and in the help pages in R.
+More details on these functions can be found in the vignette of this package and in the help pages in R.
 
 <p align="center">
 
