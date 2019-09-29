@@ -34,4 +34,23 @@ Load the package
 library(DNAsmokeR)
 ```
 
+# Functions
+
+This package contains 4 different functions:
+
+* ```smokeScore()```  
+* ```scoreMatrix()```  
+* ```boxplotScore()```  
+* ```shinySmokeR()```
+
+<br></br>
+
+The main function is ```smokeScore()```, as this will create the in utero smoke exposure score based on 
+the weights of the elastic net regression model developed in Rauschert et al. (under review).  
+
+```smokeMatrix()``` and ```boxplotScore()``` can only be applied when the user has a binary variable available in their study, indicating if the study participants were exposed to maternal smoking during pregnancy. Both functions are mainly necessary for the validation project within the EU HORIZON 2020 LifeCycle project.  
+
+```shinySmokeR()``` is a shiny app, that allows the user to make the calculation of the score and display of the quality measures as easy as possible.
+
+
 
