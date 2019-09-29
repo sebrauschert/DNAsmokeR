@@ -16,11 +16,12 @@ This package can be installed in its BETA version by typing the following into t
 
 ## Functions
 
-This package currently contains three functions:
+This package currently contains four functions:
 
 * <code>smokeScore()</code>  
-* <code>scoreMatrix()</code>  , and   
-* <code>boxplotScore()</code>  
+* <code>scoreMatrix()</code>     
+* <code>boxplotScore()</code>  , and  
+* <code>shinySmokeR()</code>
 
 More details on these functions can be found in the vignette of this package and in the help pages in R.
 
