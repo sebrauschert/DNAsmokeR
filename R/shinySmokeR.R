@@ -6,7 +6,9 @@
 #' @import data.table
 #' @return \code{shinySmokeR} to launch shiny app
 #' @examples
+#' \dontrun{
 #'  shinySmokeR()
+#'  }
 #' @export
 
 shinySmokeR <- function(){

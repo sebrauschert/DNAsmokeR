@@ -6,8 +6,10 @@
 #' @param class specifying the desired output: either "prob" or "class".
 #' @return \code{smokeScore} as probability or classification.
 #' @examples
+#' \dontrun{
 #'  smokeScore(data, "450k", "prob")
 #'  smokeScore(data, "EPIC", "class")
+#'  }
 #' @export
 
 

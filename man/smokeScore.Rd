@@ -23,6 +23,8 @@ Create a DNA methylation based in utero exposure score to maternal
 smoking.
 }
 \examples{
+\dontrun{
  smokeScore(data, "450k", "prob")
  smokeScore(data, "EPIC", "class")
+ }
 }

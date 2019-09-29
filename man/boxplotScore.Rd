@@ -19,5 +19,7 @@ in the researchers study data}
 Quality checks for the score, if smoking variable is available
 }
 \examples{
+\dontrun{
  boxplotScore(probScore, questVariable)
+ }
 }

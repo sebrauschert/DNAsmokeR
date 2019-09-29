@@ -32,7 +32,6 @@ Load the package
 
 ```{r setup}
 knitr::opts_chunk$set(
-	eval = FALSE,
 	message = FALSE,
 	warning = FALSE,
 	include = TRUE

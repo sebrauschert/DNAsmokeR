@@ -5,7 +5,9 @@
 #'  in the researchers study data
 #' @return \code{scoreMatrix} as confusion matrix.
 #' @examples
+#' \dontrun{
 #'  scoreMatrix(classScore, questVariable)
+#'  }
 #' @export
 
 # Quality check if binary variable for expposure to maternal smoking is available ---------------
@@ -23,7 +25,9 @@ scoreMatrix <- function(classScore,questVariable) {
 #' @param probScore probability score, returned from the smokeScore function, specifying "prob"
 #' @return \code{boxplotScore} as boxplot for score and study information on maternal smoking.
 #' @examples
+#' \dontrun{
 #'  boxplotScore(probScore, questVariable)
+#'  }
 #' @export
 #'
 # Visual representation in form of boxplot, in case the smoking varible is available

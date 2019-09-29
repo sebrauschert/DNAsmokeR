@@ -13,5 +13,7 @@ shinySmokeR()
 Shiny app to make the application of the smoking score as easy as possible
 }
 \examples{
+\dontrun{
  shinySmokeR()
+ }
 }
