@@ -15,7 +15,12 @@ License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
-	R (>= 3.5.0)
+	R (>= 3.5.0),
+	shinydashboard,
+	shiny,
+	DT,
+	data.table,
+	caret
 Imports:
 	ggplot2,
 	dplyr,

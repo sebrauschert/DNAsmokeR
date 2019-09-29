@@ -32,10 +32,10 @@ smokeScore <- function(data=data, ARRAY=c("450K", "EPIC"), class=c("class", "pro
                       filter(CpG %in% i) %>%
                       select(Coefficient)
                       )
-        score <- cbind(score , (CPG * data[,i]))
+        score <- cbind(score , as.numeric(unlist((CPG * data[,i]))))
         cpg <- c(cpg, i)
     }
-    score         <- data.frame(score)
+    score         <- na.omit(data.frame(score))
     names(score)  <- cpg
 
     smokScore   <- rowSums(score) + as.numeric(I450K[1,2])
@@ -59,10 +59,10 @@ smokeScore <- function(data=data, ARRAY=c("450K", "EPIC"), class=c("class", "pro
                           filter(CpG %in% i) %>%
                           select(Coefficient)
       )
-      score <- cbind(score , (CPG * data[,i]))
+      score <- cbind(score , as.numeric(unlist((CPG * data[,i]))))
       cpg <- c(cpg, i)
     }
-    score         <- data.frame(score)
+    score         <- na.omit(data.frame(score))
     names(score)  <- cpg
 
     smokScore   <- rowSums(score) + as.numeric(EPIC[1,2])

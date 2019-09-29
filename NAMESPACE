@@ -2,4 +2,9 @@
 
 export(boxplotScore)
 export(scoreMatrix)
+export(shinySmokeR)
 export(smokeScore)
+import(DT)
+import(data.table)
+import(shiny)
+import(shinydashboard)

@@ -5,7 +5,8 @@
 \title{Create a DNA methylation based in utero exposure score to maternal
 smoking.}
 \usage{
-smokeScore(data, ARRAY, class)
+smokeScore(data = data, ARRAY = c("450K", "EPIC"), class = c("class",
+  "prob"))
 }
 \arguments{
 \item{data}{A data frame with CpGs in the columns and study participants in the rows.}
