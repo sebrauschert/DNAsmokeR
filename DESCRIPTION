@@ -22,7 +22,8 @@ Depends:
 	shiny,
 	DT,
 	data.table,
-	caret
+	caret,
+	tidyverse
 Imports:
 	ggplot2,
 	dplyr,

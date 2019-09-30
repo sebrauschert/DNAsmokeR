@@ -47,7 +47,8 @@ shinySmokeR <- function(){
                               ),
                               
                               fluidRow(
-                                box(title="Prediction Results", verbatimTextOutput("ConfusionMatrix"), color="black" , solidHeader = TRUE),
+                                box(title="Prediction Results", verbatimTextOutput("ConfusionMatrix"), color="black" , solidHeader = TRUE,
+                                    downloadButton('predRes', label = "Save")),
                                 box(title="Score Classification",plotOutput("ScoreClass"), color="black", solidHeader = TRUE)
                               )),
                       tabItem(tabName="instructions", h2("How to use this app:")))
@@ -56,7 +57,6 @@ shinySmokeR <- function(){
   # Define server logic required to draw a histogram
   server <- function(input, output, session) {
     options(shiny.maxRequestSize = 800*1024^2)
-    
     output$contents <- DT::renderDataTable({
       
       # input$file1 will be NULL initially. After the user selects
@@ -81,25 +81,6 @@ shinySmokeR <- function(){
       
     })
     
-    output$Score <- renderPlot({
-      
-      req(input$file1)
-      
-      if (input$fileType %in% ".rds"){
-        df <- readRDS(input$file1$datapath)
-      }
-      if (input$fileType %in% ".csv"){
-        df <- read.csv(input$file1$datapath)
-      }
-      
-      df <- na.omit(df)
-      
-      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="prob")#  predict(smkScore,df[,features], type="prob")[,1]
-      
-      df %>%
-        drop_na() %>%
-        ggplot(aes(predictedScore)) + geom_density() + theme_minimal()
-    })
     
     output$ScoreClass <- renderPlot({
       
@@ -128,6 +109,7 @@ shinySmokeR <- function(){
       
     })
     
+   
     
     output$ConfusionMatrix <- renderPrint({
       
@@ -148,6 +130,39 @@ shinySmokeR <- function(){
       
       confusionMatrix(df$predictedScore, df$mat_smk)
     })
+    
+    
+    predictionScore <- 
+      reactive({
+      req(input$file1)
+
+      if (input$fileType %in% ".rds"){
+        df <- readRDS(input$file1$datapath)
+      }
+      if (input$fileType %in% ".csv"){
+        df <- read.csv(input$file1$datapath)
+      }
+
+      df <- na.omit(df)
+
+      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class")#predict(smkScore, newdata=df[,features])
+
+      #saveRDS(confusionMatrix(df$predictedScore, df$mat_smk), "tmp/Environment.rds")
+
+      confusionMatrix(df$predictedScore, df$mat_smk)
+
+    })
+
+    
+    output$predRes <- downloadHandler(
+      filename <- function(){
+        paste("predictionQuality.RData")
+      },
+      
+      content = function(file) {
+        save(predictionScore(), file = file)
+      }
+    )
     
     output$downloadReport <- downloadHandler(
       filename = 'my-report.html',

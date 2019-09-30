@@ -21,15 +21,15 @@
 smokeScore <- function(data=data, ARRAY=c("450k", "EPIC"), class=c("class", "prob")){
 
   # Load coefficient data sets ---------------------------------
-  #load("data/EPIC.rda")
-  #load("data/I450K.rda")
+  data("EPIC")
+  data("I450K")
 
 
     if(ARRAY %in% "450k"){
     SCORE <- NULL
     score <- NULL
     cpg   <- NULL
-
+   
     for (i in I450K$CpG[2:205]) {
         CPG <- as.numeric(I450K %>%
                       filter(CpG %in% i) %>%
