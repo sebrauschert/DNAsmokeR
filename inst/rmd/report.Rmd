@@ -4,11 +4,20 @@ output:
   html_document:
     toc: yes
     toc_float: yes
+    self_contained: yes
+    toc: yes
+    toc_float: yes
+    code_folding: "show"
+    template: resources/template_lifecycle.html
+    css: resources/html_report.css
+logo: lifecycle-large.jpg
 params:
   study: NA
   prediction: NA
   sampsize: NA
 ---
+
+# Study: __`r params$study`__
 
 # About the project  
 
