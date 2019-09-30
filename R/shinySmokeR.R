@@ -29,6 +29,7 @@ shinySmokeR <- function(){
                       menuItem("Generate report", tabName="report", icon = icon("table"),
                                textInput("study", "Enter Study Name"),
                                textInput("normalization", "Enter Normalization Method"),
+                               textInput("email", "Enter Contact Email"),
                                downloadButton('downloadReport', label = "Report")),
                       menuItem("Help", tabName="instructions", icon = icon("map-signs")))),
                   
@@ -136,9 +137,11 @@ shinySmokeR <- function(){
         sampsize    <- length(df$predictedScore)
         studyInput  <- as.character(input$study)
         normInput   <- as.character(input$normalization)
+        emailInput  <- as.character(input$email)
+        
         # Set up parameters to pass to Rmd document
         params <- list(prediction =  confusionMatrix(df$predictedScore, df$mat_smk), 
-                       study = studyInput, sampsize = sampsize, normalization = normInput)
+                       study = studyInput, sampsize = sampsize, normalization = normInput, email=emailInput)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document

@@ -14,9 +14,13 @@ params:
   prediction: NA
   sampsize: NA
   normalization: NA
+  email: NA
 ---
 
-# Study: __`r params$study`__
+# Study info
+Study name: __`r params$study`__  
+Normalization method: __`r params$normalization`__
+Contact: __`r params$email`__  
 
 # About the project  
 
