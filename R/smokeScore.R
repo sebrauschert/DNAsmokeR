@@ -23,8 +23,7 @@ smokeScore <- function(data=data, ARRAY=c("450K", "EPIC"), class=c("class", "pro
   # Load coefficient data sets ---------------------------------
   #load("data/EPIC.rda")
   #load("data/I450K.rda")
-  load(sysdata.rda)
-  
+
 
     if(ARRAY %in% "450k"){
     SCORE <- NULL
