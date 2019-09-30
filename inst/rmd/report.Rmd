@@ -13,6 +13,7 @@ params:
   study: NA
   prediction: NA
   sampsize: NA
+  normalization: NA
 ---
 
 # Study: __`r params$study`__

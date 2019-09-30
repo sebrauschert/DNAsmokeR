@@ -24,7 +24,8 @@ Depends:
 	data.table,
 	caret,
 	tidyverse,
-	pander
+	pander,
+	e1071
 Imports:
 	ggplot2,
 	dplyr,
