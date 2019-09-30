@@ -5,7 +5,6 @@ output:
     toc: yes
     toc_float: yes
     self_contained: yes
-    toc: yes
     toc_float: yes
     code_folding: "show"
     template: resources/template_lifecycle.html
