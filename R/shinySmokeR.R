@@ -114,7 +114,7 @@ shinySmokeR <- function(){
         # case we don't have write permissions to the current working dir (which
         # can happen when deployed).
         tempReport <- file.path(tempdir(), "report.Rmd")
-        file.copy("~/Desktop/report.Rmd", tempReport, overwrite = TRUE)
+        file.copy("report.Rmd", tempReport, overwrite = TRUE)
         
         if (input$fileType %in% ".rds"){
           df <- readRDS(input$file1$datapath)
