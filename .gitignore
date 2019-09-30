@@ -4,8 +4,5 @@
 .Rbuildignore
 .RCache
 .DS_Store
-.RData
-data/450K_Coefficients.csv
-data/EPIC_Coefficients.csv
 inst/doc
 DNAsmokeR.Rproj
