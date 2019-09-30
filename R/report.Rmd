@@ -1,0 +1,42 @@
+---
+title: "Prediction Report"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+params:
+  study: NA
+  prediction: NA
+  sampsize: NA
+---
+
+# About the project  
+
+In this project, we aim to validate a machine learning based DNA-methylation exposure score to maternal smoking in utero. This score was developed in the Raine Study (partner: University of Western Australia/Telethon Kids Instiute, Perth, Western Australia) and the Northern Finland Birth Cohorts 1986 and 1966 (partner: University of Oulu, Oulu, Finland). For the score development, DNA methylation data measured with the Illumina HumanMethylation450 BeadChip array was utilized, together with a binary variable, indicating if the study participants mother was smoking during pregnancy.
+The resulting score outperforms currently existing alternatives and adds a systematic evaluation of different machine learning approaches to the literature. In parallel to the development of the predictive score, a R-package called ```DNAsmokeR``` was developed (https://github.com/Hobbeist/DNAsmokeR), that allows users to apply the method to their study and receive the score together with measures on the predictive power, given the study has information on maternal smoking during pregnancy available.
+
+
+# Information on the study
+
+This is the validation report for: __`r params$study`__
+The data that was used to create the predictive score needed to be without missing values. Therefore, _NA_ values are excluded
+in the modelling process.
+__`r params$study`__ has <a style="color:tomato;">`r params$sampsize`</a> subjects available without missing data. That is the number of participants for whom the score could be created.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Prediction
+
+The following confusion Matrix is created by the ```confusionMatrix()``` function within the ```caret``` package.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+params$prediction
+```
+
+# R Session Info
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(pander)
+pander(sessionInfo(), compact = FALSE)
+```

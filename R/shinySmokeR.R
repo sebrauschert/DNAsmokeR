@@ -15,27 +15,21 @@ shinySmokeR <- function(){
   # Define UI for application that draws a histogram
   ui <- fluidPage(
     dashboardPage(skin = "black",
-                  dashboardHeader(title= "shinySmokeR" #div(img(src="LifeCycle.png",
-                                                # title = "shinySmokeR", height = "40px"),
-                                             #style = "padding-top:1px; padding-bottom:1px;")),
-                  ),
+                  dashboardHeader(title= "shinySmokeR"),
                   dashboardSidebar(
-                    
                     sidebarMenu(
                       menuItem("Dashboard", tabName="dashboard", icon = icon("dashboard")),
-                      
                       menuItem("Data upload", tabName = "upload", icon = icon("database"),
                                radioButtons("fileType", "Choose file type for upload", c(".csv", ".rds")), 
-                               
                                fileInput("file1", "Choose CpG File",
                                          multiple = FALSE,
                                          accept = c("text/csv/rds",
                                                     "text/comma-separated-values,text/plain",
                                                     ".csv", ".rds"))),
+                      menuItem("Generate report", tabName="report", icon = icon("table"),
+                               textInput("study", "Enter Study Name"),
+                               downloadButton('downloadReport', label = "Report")),
                       menuItem("Help", tabName="instructions", icon = icon("map-signs")))),
-                  
-                  
-                  #dashboardBody(),
                   
                   
                   dashboardBody(
@@ -47,10 +41,8 @@ shinySmokeR <- function(){
                               ),
                               
                               fluidRow(
-                                box(title="Prediction Results", verbatimTextOutput("ConfusionMatrix"), color="black" , solidHeader = TRUE,
-                                    downloadButton('predRes', label = "Save")),
-                                box(title="Score Classification",plotOutput("ScoreClass"), color="black", solidHeader = TRUE)
-                              )),
+                                box(title="Prediction Results", verbatimTextOutput("ConfusionMatrix"), color="black" , solidHeader = TRUE),
+                                box(title="Score Classification",plotOutput("ScoreClass"), color="black", solidHeader = TRUE))),
                       tabItem(tabName="instructions", h2("How to use this app:")))
                   ))) 
   
@@ -77,121 +69,81 @@ shinySmokeR <- function(){
       
       #return(head(df))
       return(DT::datatable(head(df), options = list(scrollX = TRUE, lengthMenu = c(5, 10), pageLength = 5, widthMenu= 10)))
-      
-      
     })
     
     
     output$ScoreClass <- renderPlot({
-      
       req(input$file1)
-      
-      
       if (input$fileType %in% ".rds"){
         df <- readRDS(input$file1$datapath)
       }
       if (input$fileType %in% ".csv"){
         df <- read.csv(input$file1$datapath)
       }
-      
       df <- na.omit(df)
-      
-      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class") #predict(smkScore,df[,features])
-      
-      
+      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class") 
       plot1 <- df %>%
         drop_na() %>%
         ggplot(aes(predictedScore, fill=mat_smk)) + geom_bar() + theme_minimal()
-      
-      #saveRDS(plot1, "tmp/ScoreClass.rds")
-      
       plot1
-      
     })
     
-   
+    
     
     output$ConfusionMatrix <- renderPrint({
-      
       req(input$file1)
-      
       if (input$fileType %in% ".rds"){
         df <- readRDS(input$file1$datapath)
       }
       if (input$fileType %in% ".csv"){
         df <- read.csv(input$file1$datapath)
       }
-      
       df <- na.omit(df)
-      
-      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class")#predict(smkScore, newdata=df[,features])
-      
-      #saveRDS(confusionMatrix(df$predictedScore, df$mat_smk), "tmp/Environment.rds")
-      
+      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class")
       confusionMatrix(df$predictedScore, df$mat_smk)
     })
     
     
-    predictionScore <- 
-      reactive({
-      req(input$file1)
-
-      if (input$fileType %in% ".rds"){
-        df <- readRDS(input$file1$datapath)
-      }
-      if (input$fileType %in% ".csv"){
-        df <- read.csv(input$file1$datapath)
-      }
-
-      df <- na.omit(df)
-
-      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class")#predict(smkScore, newdata=df[,features])
-
-      #saveRDS(confusionMatrix(df$predictedScore, df$mat_smk), "tmp/Environment.rds")
-
-      confusionMatrix(df$predictedScore, df$mat_smk)
-
-    })
-
     
-    output$predRes <- downloadHandler(
-      filename <- function(){
-        paste("predictionQuality.RData")
-      },
-      
-      content = function(file) {
-        save(predictionScore(), file = file)
-      }
-    )
-    
+    # Create an rmarkdown report
     output$downloadReport <- downloadHandler(
-      filename = 'my-report.html',
+      # For PDF output, change this to "report.pdf"
+      filename = "report.html",
       content = function(file) {
-        
         # Copy the report file to a temporary directory before processing it, in
         # case we don't have write permissions to the current working dir (which
         # can happen when deployed).
-        #tempReport <- file.path(tempdir(), "report.Rmd")
-        #file.copy("report.Rmd", tempReport, overwrite = TRUE)
+        tempReport <- file.path(tempdir(), "report.Rmd")
+        file.copy("~/Desktop/report.Rmd", tempReport, overwrite = TRUE)
+        
+        if (input$fileType %in% ".rds"){
+          df <- readRDS(input$file1$datapath)
+        }
+        if (input$fileType %in% ".csv"){
+          df <- read.csv(input$file1$datapath)
+        }
+        df <- na.omit(df)
+        df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class")
+        
+        sampsize <- length(df$predictedScore)
+        studyInput <- as.character(input$study)
+        
+        # Set up parameters to pass to Rmd document
+        params <- list(prediction =  confusionMatrix(df$predictedScore, df$mat_smk), 
+                       study = studyInput, sampsize = sampsize)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
         # from the code in this app).
-        # rmarkdown::render(tempReport, output_file = file,
-        #                   envir = new.env(parent = globalenv()))
-        
-        rmarkdown::render("report.Rmd", output_file = file,
-                          envir = new.env(parent = globalenv()))
+        rmarkdown::render(tempReport, output_file = file,
+                          params = params,
+                          envir = new.env(parent = globalenv())
+        )
       }
     )
-    
-    session$onSessionEnded(function() {
-      system(paste("rm -f", "tmp/Environment.rds"))
-      system(paste("rm -f", "tmp/ScoreClass.rds"))
-    })
-    
   }
   
   # Run the application 
   shinyApp(ui = ui, server = server)
+  
 }

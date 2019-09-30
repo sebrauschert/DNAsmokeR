@@ -23,7 +23,8 @@ Depends:
 	DT,
 	data.table,
 	caret,
-	tidyverse
+	tidyverse,
+	pander
 Imports:
 	ggplot2,
 	dplyr,
