@@ -29,7 +29,7 @@ smokeScore <- function(data=data, ARRAY=c("450k", "EPIC"), class=c("class", "pro
     SCORE <- NULL
     score <- NULL
     cpg   <- NULL
-    I450K <- DNAsmokeR:::I450K
+
     for (i in I450K$CpG[2:205]) {
         CPG <- as.numeric(I450K %>%
                       filter(CpG %in% i) %>%

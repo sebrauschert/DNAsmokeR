@@ -1,8 +1,5 @@
 .Rproj.user
 .Rhistory
 .Ruserdata
-.Rbuildignore
-.RCache
 .DS_Store
-inst/doc
 DNAsmokeR.Rproj
