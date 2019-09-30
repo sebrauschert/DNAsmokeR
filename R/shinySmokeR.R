@@ -113,8 +113,14 @@ shinySmokeR <- function(){
         # Copy the report file to a temporary directory before processing it, in
         # case we don't have write permissions to the current working dir (which
         # can happen when deployed).
-        tempReport <- file.path(tempdir(), "report.Rmd")
-        file.copy(system.file("rmd", "report.Rmd", package = "DNAsmokeR"), tempReport, overwrite = TRUE)
+        
+        tempReportRmd <- file.path(tempdir(), "report.Rmd")
+        
+        dir.create(paste0(tempdir(),'/new_folder'))
+        tempFolder <- paste0(tempdir(),'/new_folder')
+        file.copy(system.file("rmd", "report.Rmd", package = "DNAsmokeR"), tempFolder, overwrite = TRUE)
+        file.copy(system.file("rmd", "resources", package = "DNAsmokeR"), tempFolder, recursive=TRUE)
+        file.copy(system.file("rmd", "lifecycle-large.jpg", package = "DNAsmokeR"), tempFolder, overwrite = TRUE)
         
         if (input$fileType %in% ".rds"){
           df <- readRDS(input$file1$datapath)
@@ -135,7 +141,8 @@ shinySmokeR <- function(){
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
         # from the code in this app).
-        rmarkdown::render(tempReport, output_file = file,
+        tempReportRmd <- paste0(tempFolder,'/report.Rmd')
+        rmarkdown::render(tempReportRmd, output_file = file,
                           params = params,
                           envir = new.env(parent = globalenv())
         )
