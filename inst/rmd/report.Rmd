@@ -3,7 +3,6 @@ title: "Prediction Report"
 output: 
   html_document:
     toc: yes
-    toc_float: yes
     self_contained: yes
     toc_float: yes
     code_folding: "show"
