@@ -18,7 +18,7 @@
 
 # Plot distribution
 
-smokeScore <- function(data=data, ARRAY=c("450K", "EPIC"), class=c("class", "prob")){
+smokeScore <- function(data=data, ARRAY=c("450k", "EPIC"), class=c("class", "prob")){
 
   # Load coefficient data sets ---------------------------------
   #load("data/EPIC.rda")
@@ -30,8 +30,8 @@ smokeScore <- function(data=data, ARRAY=c("450K", "EPIC"), class=c("class", "pro
     score <- NULL
     cpg   <- NULL
     
-    for (i in I450K$CpG[2:205]) {
-        CPG <- as.numeric(I450K %>%
+    for (i in DNAsmokeR:::I450K$CpG[2:205]) {
+        CPG <- as.numeric(DNAsmokeR:::I450K %>%
                       filter(CpG %in% i) %>%
                       select(Coefficient)
                       )
@@ -41,7 +41,7 @@ smokeScore <- function(data=data, ARRAY=c("450K", "EPIC"), class=c("class", "pro
     score         <- na.omit(data.frame(score))
     names(score)  <- cpg
 
-    smokScore   <- rowSums(score) + as.numeric(I450K[1,2])
+    smokScore   <- rowSums(score) + as.numeric(DNAsmokeR:::I450K[1,2])
     normalized <- as.numeric((smokScore-min(smokScore))/(max(smokScore)-min(smokScore)))
     predictSMOK <- factor(ifelse(normalized >0.5, "smoke_exp", "not_exp"))
 

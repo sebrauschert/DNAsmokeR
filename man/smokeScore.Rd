@@ -5,7 +5,7 @@
 \title{Create a DNA methylation based in utero exposure score to maternal
 smoking.}
 \usage{
-smokeScore(data = data, ARRAY = c("450K", "EPIC"), class = c("class",
+smokeScore(data = data, ARRAY = c("450k", "EPIC"), class = c("class",
   "prob"))
 }
 \arguments{
