@@ -15,11 +15,12 @@ params:
   sampsize: NA
   normalization: NA
   email: NA
+  rocCurve: NA
 ---
 
 # Study info
 Study name: __`r params$study`__  
-Normalization method: __`r params$normalization`__
+Normalization method: __`r params$normalization`__  
 Contact: __`r params$email`__  
 
 # About the project  
@@ -46,6 +47,15 @@ The following confusion Matrix is created by the ```confusionMatrix()``` functio
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 params$prediction
 ```
+
+# ROC curve and area under the curve
+
+This is the ROC curve for the predictor:  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+params$rocCurve
+```
+
 
 # R Session Info
 ```{r echo=FALSE, message=FALSE, warning=FALSE}

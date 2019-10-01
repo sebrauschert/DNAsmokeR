@@ -25,7 +25,8 @@ Depends:
 	caret,
 	tidyverse,
 	pander,
-	e1071
+	e1071,
+	plotROC
 Imports:
 	ggplot2,
 	dplyr,

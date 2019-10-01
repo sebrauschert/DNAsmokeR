@@ -44,7 +44,7 @@ shinySmokeR <- function(){
                               
                               fluidRow(
                                 box(title="Prediction Results", verbatimTextOutput("ConfusionMatrix"), color="black" , solidHeader = TRUE),
-                                box(title="Score Classification",plotOutput("ScoreClass"), color="black", solidHeader = TRUE))),
+                                box(title="ROC curve and AUC",plotOutput("ScoreClass"), color="black", solidHeader = TRUE))),
                       tabItem(tabName="instructions", h2("How to use this app:")))
                   ))) 
   
@@ -83,10 +83,22 @@ shinySmokeR <- function(){
         df <- read.csv(input$file1$datapath)
       }
       df <- na.omit(df)
-      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class") 
+      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="prob")
+      
+      ROC <- df %>%
+        ggplot(aes(d=mat_smk, m=predictedScore)) + 
+        geom_roc(n.cuts = 0) + 
+        geom_abline(intercept=0, slope=1, linetype="dashed", col="black") + 
+        style_roc(theme = theme_minimal)
+      
+      roc_value <- round(calc_auc(ROC)$AUC[1],3)
+      
       plot1 <- df %>%
-        drop_na() %>%
-        ggplot(aes(predictedScore, fill=mat_smk)) + geom_bar() + theme_minimal()
+        ggplot(aes(d=mat_smk, m=predictedScore)) + 
+        geom_roc(n.cuts = 0) + 
+        geom_abline(intercept=0, slope=1, linetype="dashed", col="black") + 
+        style_roc(theme = theme_minimal) +
+        annotate("text", x=.75, y=.25, label=paste("AUC = ",roc_value), color="#F8766D")
       plot1
     })
     
@@ -139,9 +151,26 @@ shinySmokeR <- function(){
         normInput   <- as.character(input$normalization)
         emailInput  <- as.character(input$email)
         
+        df$percentScore <- smokeScore(df,ARRAY = "450k", class="prob")
+        # Make Roc Curve available
+        ROC <- df %>%
+          ggplot(aes(d=mat_smk, m=percentScore)) + 
+          geom_roc(n.cuts = 0) + 
+          geom_abline(intercept=0, slope=1, linetype="dashed", col="black") + 
+          style_roc(theme = theme_minimal)
+        
+        roc_value <- round(calc_auc(ROC)$AUC[1],3)
+        
+        AUC_ROC <- df %>%
+          ggplot(aes(d=mat_smk, m=percentScore)) + 
+          geom_roc(n.cuts = 0) + 
+          geom_abline(intercept=0, slope=1, linetype="dashed", col="black") + 
+          style_roc(theme = theme_minimal) +
+          annotate("text", x=.75, y=.25, label=paste("AUC = ",roc_value), color="#F8766D")
+        
         # Set up parameters to pass to Rmd document
         params <- list(prediction =  confusionMatrix(df$predictedScore, df$mat_smk), 
-                       study = studyInput, sampsize = sampsize, normalization = normInput, email=emailInput)
+                       study = studyInput, sampsize = sampsize, normalization = normInput, email=emailInput, rocCurve = AUC_ROC)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
