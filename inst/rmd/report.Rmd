@@ -16,11 +16,16 @@ params:
   normalization: NA
   email: NA
   rocCurve: NA
+  array: NA
+  numberCpG: NA
+  missingCpG: NA
 ---
 
 # Study info
 Study name: __`r params$study`__  
+Array type: __`r params$array`__  
 Normalization method: __`r params$normalization`__  
+Nuber of CpGs not in the study: __`r params$numberCpG`__  
 Contact: __`r params$email`__  
 
 # About the project  
@@ -56,6 +61,9 @@ This is the ROC curve for the predictor:
 params$rocCurve
 ```
 
+# List of missing CpGs
+
+`r params$missingCpG`
 
 # R Session Info
 ```{r echo=FALSE, message=FALSE, warning=FALSE}

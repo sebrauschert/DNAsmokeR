@@ -20,6 +20,7 @@ shinySmokeR <- function(){
                     sidebarMenu(
                       menuItem("Dashboard", tabName="dashboard", icon = icon("dashboard")),
                       menuItem("Data upload", tabName = "upload", icon = icon("database"),
+                               radioButtons("array", "Choose array type", c("450K", "EPIC")),
                                radioButtons("fileType", "Choose file type for upload", c(".csv", ".rds")), 
                                fileInput("file1", "Choose CpG File",
                                          multiple = FALSE,
@@ -45,7 +46,7 @@ shinySmokeR <- function(){
                               fluidRow(
                                 box(title="Prediction Results", verbatimTextOutput("ConfusionMatrix"), color="black" , solidHeader = TRUE),
                                 box(title="ROC curve and AUC",plotOutput("ScoreClass"), color="black", solidHeader = TRUE))),
-                      tabItem(tabName="instructions", h2("How to use this app:")))
+                      tabItem(tabName="instructions", h2("For issues and questions about this app, please email Sebastian.Rauschert@telethonkids.org.au")))
                   ))) 
   
   # Define server logic required to draw a histogram
@@ -61,29 +62,40 @@ shinySmokeR <- function(){
       
       #df <- read.csv(input$file1$datapath, header =T)
       if (input$fileType %in% ".rds"){
-        df <- readRDS(input$file1$datapath)
+        df <- as.data.frame(readRDS(input$file1$datapath))
       }
       if (input$fileType %in% ".csv"){
         df <- read.csv(input$file1$datapath)
       }
       
       df <- na.omit(df)
-      
-      #return(head(df))
       return(DT::datatable(head(df), options = list(scrollX = TRUE, lengthMenu = c(5, 10), pageLength = 5, widthMenu= 10)))
     })
     
     
     output$ScoreClass <- renderPlot({
+      if (input$array %in% "450K"){
+        array = "450k"
+      }
+      if (input$array %in% "EPIC"){
+        array = "EPIC"
+      }
+      
       req(input$file1)
       if (input$fileType %in% ".rds"){
-        df <- readRDS(input$file1$datapath)
+        df <- as.data.frame(readRDS(input$file1$datapath))
       }
       if (input$fileType %in% ".csv"){
         df <- read.csv(input$file1$datapath)
       }
+      
       df <- na.omit(df)
-      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="prob")
+      df <- df %>%
+        mutate(mat_smk = as.factor(ifelse(preg_smk %in% 0, "not_exp", 
+                                          ifelse(preg_smk %in% 1, "smoke_exp", NA)))) %>%
+        select(-preg_smk)
+      
+      df$predictedScore <- smokeScore(df, ARRAY = array, class="prob")
       
       ROC <- df %>%
         ggplot(aes(d=mat_smk, m=predictedScore)) + 
@@ -100,21 +112,35 @@ shinySmokeR <- function(){
         style_roc(theme = theme_minimal) +
         annotate("text", x=.75, y=.25, label=paste("AUC = ",roc_value), color="#F8766D")
       plot1
+      
     })
     
     
     
     output$ConfusionMatrix <- renderPrint({
+      if (input$array %in% "450K"){
+        array <- "450k"
+      }
+      if (input$array %in% "EPIC"){
+        array <- "EPIC"
+      }
+      
       req(input$file1)
       if (input$fileType %in% ".rds"){
-        df <- readRDS(input$file1$datapath)
+        df <- as.data.frame(readRDS(input$file1$datapath))
       }
       if (input$fileType %in% ".csv"){
         df <- read.csv(input$file1$datapath)
       }
       df <- na.omit(df)
-      df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class")
-      confusionMatrix(df$predictedScore, df$mat_smk)
+      df <- df %>%
+        mutate(mat_smk = as.factor(ifelse(preg_smk %in% 0, "not_exp", 
+                                          ifelse(preg_smk %in% 1, "smoke_exp", NA)))) %>%
+        select(-preg_smk)
+      
+      df$predictedScore <- smokeScore(df, ARRAY = array, class="class")
+      confusionMatrix(df$predictedScore, as.factor(df$mat_smk))
+    
     })
     
     
@@ -136,22 +162,39 @@ shinySmokeR <- function(){
         file.copy(system.file("rmd", "resources", package = "DNAsmokeR"), tempFolder, recursive=TRUE)
         file.copy(system.file("rmd", "lifecycle-large.jpg", package = "DNAsmokeR"), tempFolder, overwrite = TRUE)
         
+        if (input$array %in% "450K"){
+          array <- "450k"
+        }
+        if (input$array %in% "EPIC"){
+          array <- "EPIC"
+        }
+        
         if (input$fileType %in% ".rds"){
-          df <- readRDS(input$file1$datapath)
+          df <- as.data.frame(readRDS(input$file1$datapath))
         }
         if (input$fileType %in% ".csv"){
           df <- read.csv(input$file1$datapath)
         }
         df <- na.omit(df)
-        df$predictedScore <- smokeScore(df,ARRAY = "450k", class="class")
+        df <- df %>%
+          mutate(mat_smk = as.factor(ifelse(preg_smk %in% 0, "not_exp", 
+                                            ifelse(preg_smk %in% 1, "smoke_exp", NA)))) %>%
+          select(-preg_smk)
+        
+        df$predictedScore <- smokeScore(df,ARRAY = array, class="class")
         
         # Info on the study
         sampsize    <- length(df$predictedScore)
         studyInput  <- as.character(input$study)
         normInput   <- as.character(input$normalization)
         emailInput  <- as.character(input$email)
+        arrayInput  <- as.character(input$array)
         
-        df$percentScore <- smokeScore(df,ARRAY = "450k", class="prob")
+        # Number of CpGs not in the Study
+        numberDIFF <- length(setdiff(I450K$CpG[2:205], names(df)[names(df) != "mat_smk"]))
+        CpGmissing <- setdiff(I450K$CpG[2:205], names(df)[names(df) != "mat_smk"])
+        df$percentScore <- smokeScore(df, ARRAY = array, class="prob")
+        
         # Make Roc Curve available
         ROC <- df %>%
           ggplot(aes(d=mat_smk, m=percentScore)) + 
@@ -169,8 +212,11 @@ shinySmokeR <- function(){
           annotate("text", x=.75, y=.25, label=paste("AUC = ",roc_value), color="#F8766D")
         
         # Set up parameters to pass to Rmd document
-        params <- list(prediction =  confusionMatrix(df$predictedScore, df$mat_smk), 
-                       study = studyInput, sampsize = sampsize, normalization = normInput, email=emailInput, rocCurve = AUC_ROC)
+        params <- list(prediction =  confusionMatrix(df$predictedScore, as.factor(df$mat_smk)), 
+                       study = studyInput, sampsize = sampsize, normalization = normInput, 
+                       email=emailInput, rocCurve = AUC_ROC, array = arrayInput,
+                       numberCpG = numberDIFF,
+                       missingCpG = CpGmissing)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document

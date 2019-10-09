@@ -1,0 +1,31 @@
+<h2>These are the steps to work with this shiny app:  </h2>
+
+<p>
+  <ol>
+    <li>Click on <i>Data upload</i></li>
+      <ol>
+          <li>Choose the array type that was used to measure your data</li>
+          <li>Choose the file type that you have saved your data under (either <b>.csv</b> or <b>.rds</b>)</li>
+          <li>Browse for your data file</li>
+      </ol>
+
+
+  This will load your data frame into the app and automatically populate the dashboard with the following:
+
+  <ol>
+    <li>The first few lines of your csv fiel and all columns, so you can check if the data was correctly formatted for upload</li>
+    <li>The prediction results in the form of a confusion matrix, including all relevant model quality parameters</li>
+    <li>A ROC curve and teh AUC parameter to visualize the quality of the predictor in your data</li>
+  </ol>
+<br></br>
+
+  <li>After that, click on <b>Generate report</b></li>
+    This tab will allow you to enter the following details about your study and yourself:
+  <ol>
+    <li>Study name</li>
+    <li>Normalization method used for your DNA methylation data</li>
+    <li>A contact email address for your study</li>
+  </ol>
+  <li>Now click <b>Report</b> and a html report of the model measures and all the information
+    required for the validation will be created</li>
+  </ol> 

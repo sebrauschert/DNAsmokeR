@@ -25,8 +25,9 @@ smokeScore <- function(data=data, ARRAY=c("450k", "EPIC"), class=c("class", "pro
         SCORE <- NULL
         score <- NULL
         cpg   <- NULL
-   
-        for (i in I450K$CpG[2:205]) {
+        
+        availCpGs <- names(data)[names(data) %in% DNAsmokeR:::I450K$CpG]
+        for (i in availCpGs) {
             CPG <- as.numeric(I450K %>%
                       filter(CpG %in% i) %>%
                       select(Coefficient)
@@ -47,15 +48,18 @@ smokeScore <- function(data=data, ARRAY=c("450k", "EPIC"), class=c("class", "pro
         
     if(class %in% "class") {
       return(predictSMOK)
-    }
+      }
     }
   
     if(ARRAY %in% "EPIC") {
         SCORE <- NULL
         score <- NULL
         cpg   <- NULL
+        
+        
+        availCpGs <- names(data)[names(data) %in% DNAsmokeR:::EPIC$CpG]
 
-        for (i in EPIC$CpG[2:182]) {
+        for (i in availCpGs) {
             CPG <- as.numeric(EPIC %>%
                           filter(CpG %in% i) %>%
                           select(Coefficient)
