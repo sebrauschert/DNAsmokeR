@@ -35,11 +35,11 @@ smokeScore <- function(data=data, ARRAY=c("450k", "EPIC"), class=c("class", "pro
             score <- cbind(score , as.numeric(unlist((CPG * data[,i]))))
             cpg <- c(cpg, i)
         }
-        score         <- na.omit(data.frame(score))
+        score         <- as.data.frame(score)
         names(score)  <- cpg
 
         smokScore   <- rowSums(score) + as.numeric(I450K[1,2])
-        normalized  <- as.numeric((smokScore-min(smokScore))/(max(smokScore)-min(smokScore)))
+        normalized  <- as.numeric((smokScore - min(smokScore,na.rm=T))/(max(smokScore, na.rm=T) - min(smokScore, na.rm=T)))
         predictSMOK <- factor(ifelse(normalized >0.5, "smoke_exp", "not_exp"))
 
     if(class %in% "prob"){
@@ -67,11 +67,11 @@ smokeScore <- function(data=data, ARRAY=c("450k", "EPIC"), class=c("class", "pro
             score <- cbind(score , as.numeric(unlist((CPG * data[,i]))))
             cpg <- c(cpg, i)
         }
-        score         <- na.omit(data.frame(score))
+        score         <- as.data.frame(score)
         names(score)  <- cpg
 
         smokScore   <- rowSums(score) + as.numeric(EPIC[1,2])
-        normalized  <- as.numeric((smokScore-min(smokScore))/(max(smokScore)-min(smokScore)))
+        normalized  <- as.numeric((smokScore - min(smokScore,na.rm=T))/(max(smokScore, na.rm=T) - min(smokScore, na.rm=T)))
         predictSMOK <- factor(ifelse(normalized >0.5, "smoke_exp", "not_exp"))
 
     if(class %in% "prob"){
